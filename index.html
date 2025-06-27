@@ -8,12 +8,36 @@
       margin: 0;
       background-color: #121212;
       color: #fff;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       text-align: center;
     }
+
     h1 {
       margin-top: 20px;
+      font-size: 2em;
     }
+
+    #description {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px;
+      text-align: left;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    pre {
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+
+    code {
+      color: #dcdcdc;
+      font-family: 'Courier New', monospace;
+    }
+
     #container {
       display: flex;
       align-items: flex-end;
@@ -21,15 +45,18 @@
       height: 400px;
       margin: 20px;
     }
+
     .bar {
       width: 30px;
       margin: 1px;
       background: #00bcd4;
       transition: 0.3s all;
     }
+
     .bar.active {
       background: #ff4081;
     }
+
     button {
       margin: 20px 10px;
       padding: 10px 20px;
@@ -40,6 +67,7 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0097a7;
     }
@@ -47,6 +75,44 @@
 </head>
 <body>
   <h1>🌀 Pawala Sort Visualizer</h1>
+
+  <div id="description">
+    <h2>What is Pawala Sort?</h2>
+    <p>
+      <strong>Pawala Sort</strong> is a custom sorting algorithm designed by <em>Pavan KSS</em>. It operates similarly to selection sort, 
+      but with a twist — it swaps elements immediately when a smaller one is found ahead in the array. 
+      This approach makes the sorting process more visual and interactive.
+    </p>
+
+    <h3>How It Works:</h3>
+    <ul>
+      <li>For each index <code>i</code>, compare it with all <code>j &gt; i</code>.</li>
+      <li>If <code>arr[i] &gt; arr[j]</code>, immediately swap them.</li>
+    </ul>
+
+    <h3>🧪 Java Implementation:</h3>
+    <pre><code>public class PawalaSort {
+    public static void main(String[] args) {
+        int[] arr = {8, 6, 9, 2, 4, 5};
+        pawalaSort(arr);
+        System.out.println("Sorted array: " + java.util.Arrays.toString(arr));
+    }
+
+    public static void pawalaSort(int[] arr) {
+        for (int i = 0; i &lt; arr.length; i++) {
+            for (int j = i + 1; j &lt; arr.length; j++) {
+                if (arr[i] &gt; arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+    }
+}
+    </code></pre>
+  </div>
+
   <div id="container"></div>
   <button onclick="generate()">🔁 Generate</button>
   <button onclick="pawalaSort()">▶️ Start Pawala Sort</button>
@@ -76,9 +142,9 @@
       for (let i = 0; i < n; i++) {
         for (let j = i + 1; j < n; j++) {
           render([i, j]);
-          await sleep(200); // Animation delay
+          await sleep(200);
           if (values[i] > values[j]) {
-            [values[i], values[j]] = [values[j], values[i]]; // Swap
+            [values[i], values[j]] = [values[j], values[i]];
             render([i, j]);
             await sleep(200);
           }
