@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pawala Sort Visualizer</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #121212;
+      color: #fff;
+      font-family: Arial;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    #container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 400px;
+      margin: 20px;
+    }
+    .bar {
+      width: 30px;
+      margin: 1px;
+      background: #00bcd4;
+      transition: 0.3s all;
+    }
+    .bar.active {
+      background: #ff4081;
+    }
+    button {
+      margin: 20px 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #00bcd4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0097a7;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌀 Pawala Sort Visualizer</h1>
+  <div id="container"></div>
+  <button onclick="generate()">🔁 Generate</button>
+  <button onclick="pawalaSort()">▶️ Start Pawala Sort</button>
+
+  <script>
+    const container = document.getElementById("container");
+    let values = [];
+
+    function generate(count = 20) {
+      values = Array.from({ length: count }, () => Math.floor(Math.random() * 300 + 50));
+      render();
+    }
+
+    function render(activeIndices = []) {
+      container.innerHTML = "";
+      for (let i = 0; i < values.length; i++) {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = values[i] + "px";
+        if (activeIndices.includes(i)) bar.classList.add("active");
+        container.appendChild(bar);
+      }
+    }
+
+    async function pawalaSort() {
+      let n = values.length;
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          render([i, j]);
+          await sleep(200); // Animation delay
+          if (values[i] > values[j]) {
+            [values[i], values[j]] = [values[j], values[i]]; // Swap
+            render([i, j]);
+            await sleep(200);
+          }
+        }
+      }
+      render();
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    generate();
+  </script>
+</body>
+</html>
